@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- 
+    This property sheet must be added to vcxproj manually at a specific location in order to work.
+    It won't be effective if you add it using the VS IDE.  I used the following CoreUtils CLI via
+    git-bash to quickly and safely update all vcxproj.  First two lines remove all known instances of <PlatformToolset>
+    and the second adds PlatformToolset.props just ahead of Cpp.Default.props.  Final command re-normalizes to CRLF,
+    which is needed so long as mono carries some bugged policy about _not_ normalizing whitespace for vcxproj.
+
+       $ find -iname "*.vcxproj" | xargs sed -i '/PlatformToolset>v140/d'
+	   $ find -iname "*.vcxproj" | xargs sed -i '/PlatformToolset>v141/d'
+       $ find -iname "*.vcxproj" | xargs sed -i '/Microsoft.Cpp.Default.props/i \ \ <Import Project="$(SolutionDir)\PlatformToolset.props" />'
+       $ find -iname "*.vcxproj" | xargs unix2dos
+  -->
+
+  <PropertyGroup>
+    <PlatformToolset Condition="'$(PlatformToolset)' == '' and '$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)' == '' and '$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
+  </PropertyGroup>
+</Project>
